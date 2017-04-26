@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post" action="{% url 'invoicemanager:login' %}" class="form-horizontal">
+{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">Please login</div>
+		<div class="panel-body">
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="username">Username:</label>
+				<div class="col-sm-6"><input type="text" name="username" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="password">Password:</label>
+				<div class="col-sm-6"><input type="password" name="password" class="form-control"></div>
+			</div>
+			
+		</div>
+		<div class="panel-footer">
+			<input type="submit" value="Login" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+{% endblock %}

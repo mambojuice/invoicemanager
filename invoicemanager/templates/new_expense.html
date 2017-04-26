@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+<div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+<form action="#" method="POST" class="form-horizontal">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">New Expense</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Description:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="description" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Date:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="date" id="date" data-date-format="mm/dd/yyyy" value="{% now 'SHORT_DATE_FORMAT' %}" />
+				</div>
+				<script type="text/javascript">
+				$(function () {
+					$('#date').datepicker({
+						todayBtn: "linked",
+						orientation: "bottom left",
+						autoclose: true
+					});
+				});
+				</script>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Cost:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="cost" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Qty:</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" name="qty" />
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<input type="submit" value="Save" class="btn btn-primary" />
+		</div>
+	</div>
+</form>
+
+{% endblock %}

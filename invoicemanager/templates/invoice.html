@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+
+<div class="alert alert-danger">{{ error_message }}</div>
+
+{% endif %}
+
+{% if invoice %}
+
+<h2 class="text-center">Invoice {{ invoice.id }}</h2>
+
+<!-- Customer information -->
+
+<form method="POST" action="{% url 'invoicemanager:update_invoice' invoice.id %}" name="customer" class="form-horizontal">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">Customer</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Customer:</label>
+				<div class="col-sm-6">
+					<p class="form-control-static"><a href="{% url 'invoicemanager:customer' invoice.customer.id %}">{{ invoice.customer }}</a></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Date:</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" name="date" value="{{ invoice.date|date:"SHORT_DATE_FORMAT" }}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Status:</label>
+				<div class="col-sm-6">
+					<select name="status" class="form-control">
+						<option value="Draft" {% if invoice.draft %}selected{% endif %}>Draft</option>
+						<option value="Paid" {% if invoice.paid %}selected{% endif %}>Paid</option>
+						<option value="Unpaid" {% if invoice.unpaid %}selected{% endif %}>Unpaid</option>
+					<select>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+			<input type="submit" value="Save" class="btn btn-primary">
+			<a href="{% url 'invoicemanager:print_invoice' invoice.id %}" target="_new" class="btn btn-default">Printable Invoice</a>
+		</div>
+	</div>
+</form>
+
+<!-- END Customer information -->
+
+<!-- Invoice items -->
+
+<form action="{% url 'invoicemanager:add_item' invoice.id %}" method="post" class="form-inline">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">Invoice items</div>
+		<table class="table table-hover">
+			<tr>
+				<th>Item</th>
+				<th>Description</th>
+				<th>Cost</th>
+				<th>Qty</th>
+				<th>Total</th>
+				<th class="text-right">Actions</th>
+			</tr>
+			{% for item in invoice.invoiceitem_set.all %}
+			<tr>
+				<td>{{ item.name }}</td>
+				<td>{{ item.description }}</td>
+				<td>${{ item.cost }}</td>
+				<td>{{ item.qty }}</td>
+				<td>${{ item.total }}</td>
+				<td class="text-right">
+					<a href="{% url 'invoicemanager:delete_item' invoice.id item.id %}" class="btn btn-xs btn-danger">Delete</a>
+				</td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td><input type="text" name="name" class="form-control"></td>
+				<td><input type="text" name="description" class="form-control"></td>
+				<td>
+					<div class="input-group"><span class="input-group-addon">$</span><input type="text" name="cost" class="form-control" placeholder="0.00"/></div>
+				</td>
+				<td><input type="text" name="qty" class="form-control"></td>
+				<td>&nbsp;</td>
+				<td class="text-right">
+					<input type="submit" class="btn btn-xs btn-primary" value="Add">
+				</td>
+			</tr>
+		</table>
+		<div class="panel-footer text-right"><strong>Total: ${{ invoice.total_items }}</strong></div>
+	</div>
+</form>
+
+<form action="{% url 'invoicemanager:add_invoice_expense' invoice.id %}" method="post" class="form-inline">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">Invoice expenses</div>
+		<table class="table table-hover">
+			<tr>
+				<th>Description</th>
+				<th>Cost</th>
+				<th>Qty</th>
+				<th>Total</th>
+				<th class="text-right">Actions</th>
+			</tr>
+			{% for expense in invoice.expense_set.all %}
+			<tr>
+				<td>{{ expense.description }}</td>
+				<td>${{ expense.cost }}</td>
+				<td>{{ expense.qty }}</td>
+				<td>${{ expense.total }}</td>
+				<td class="text-right">
+					<a href="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}" class="btn btn-xs btn-danger">Delete</a>
+				</td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td><input type="text" name="description" class="form-control"></td>
+				<td>
+					<div class="input-group"><span class="input-group-addon">$</span><input type="text" name="cost" class="form-control" placeholder="0.00"></div>
+				</td>
+				<td><input type="text" name="qty" class="form-control"></td>
+				<td>&nbsp;</td>
+				<td class="text-right">
+					<input type="submit" class="btn btn-xs btn-primary" value="Add">
+				</td>
+			</tr>
+		</table>
+		<div class="panel-footer text-right"><strong>Total: ${{ invoice.total_expenses }}</strong></div>
+	</div>
+</form>
+
+<form action="{% url 'invoicemanager:upload_invoice_attachment' invoice.id %}" method="POST" enctype="multipart/form-data" class="form-inline">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading" >Attachments</div>
+		<table class="table table-hover">
+			<tr>
+				<th>File</th>
+				<th class="text-right">Actions</th>
+			</tr>
+			{% for attachment in invoice.invoiceattachment_set.all %}
+			<tr>
+				<td><a href="{{ attachment.file.url }}">{{ attachment.displayname }}</a></td>
+				<td class="text-right">
+					<a href="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-xs btn-danger">Delete</a>
+				</td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td>
+					<input type="file" class="file col-sm-6" name="file" id="file" data-show-preview="false">
+				</td>
+				<td class="text-right">
+					<input type="submit" class="btn btn-xs btn-primary" value="Upload">
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+
+<div class="well text-right">Invoice net total: ${{ invoice.total }}</div>
+
+{% else %}
+
+<div class="alert alert-warning">Invoice number not found!</div>
+
+{% endif %}
+
+{% endblock %}

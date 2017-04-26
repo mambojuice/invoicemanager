@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if customers %}
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Customer list</div>
+	<table class="table table-hover">
+		<tr>
+			<th>Name</th>
+			<th>Invoices</th>
+			<th class="text-right">Actions</th>
+		</tr>
+		{% for customer in customers %}
+		<tr>
+			<td>{{ customer.name }}</td>
+			<td>{{ customer.invoices }}</td>
+			<td class="text-right">
+				<a href="{% url 'invoicemanager:customer' customer.id %}" class="btn btn-xs btn-primary">View</a>
+				<a href="mailto:{{ customer.email }}" class="btn btn-xs btn-default">Send Email</a>
+				<a href="{% url 'invoicemanager:delete_customer' customer.id %}" class="btn btn-xs btn-danger">Delete</a>
+			</td>
+		</tr>		
+		{% endfor %}
+	</table>
+</div>
+
+{% else %}
+
+<div class="alert alert-warning">No customers!</div>
+
+{% endif %}
+
+
+{% endblock %}

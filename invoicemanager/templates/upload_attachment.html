@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+
+<div class="alert alert-danger">{{ error_message }}</div>
+
+{% endif %}
+
+{% if expense %}
+
+<form action="{% url 'invoicemanager:upload_business_expense_attachment' expense.id %}" method="POST" enctype="multipart/form-data" class="form-inline">
+	{% csrf_token %}
+	<div class="panel panel-primary">
+		<div class="panel-heading" >Attachments</div>
+		<div class="panel-body">
+			<input type="file" name="file" id="file">
+		</div>
+		<div class="panel-footer">
+			<input type="submit" class="btn btn-xs btn-primary" value="Upload">
+		</div>
+	</div>
+</form>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error_message %}
+<div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+{% if expenses %}
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Business expenses</div>
+	<table class="table table-hover">
+		<tr>
+			<th>Description</th>
+			<th>Date</th>
+			<th>Cost</th>
+			<th>Qty</th>
+			<th>Total</th>
+			<th>Attachment(s)</th>
+			<th class="text-right">Actions</th>
+		</tr>
+		{% for expense in expenses %}
+		<tr>
+			<td>{{ expense.description }}</td>
+			<td>{{ expense.date|date:"SHORT_DATE_FORMAT" }}</td>
+			<td>${{ expense.cost }}</td>
+			<td>{{ expense.qty }}</td>
+			<td>${{ expense.total }}</td>
+			<td>
+				{% for attachment in expense.expenseattachment_set.all %}
+				<a href="{{ attachment.file.url }}">{{ attachment.displayname }}</a><br>
+				{% endfor %}
+			</td>
+			<td class="text-right">
+				<a href="{% url 'invoicemanager:upload_business_expense_attachment' expense.id %}" class="btn btn-xs btn-default">Add Attachment</a>
+				<a href="{% url 'invoicemanager:delete_business_expense' expense.id %}" class="btn btn-xs btn-danger">Delete</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+
+{% else %}
+
+<div class="alert alert-warning">No business expenses!</div>
+
+{% endif %}
+
+{% endblock %}
