@@ -1,7 +1,22 @@
 # invoicemanager
 ## Python (Django) invoice and customer management app
+
+This application is still under heavy development. If you use it, please submit issues in GitHub (https://github.com/mambojuice/invoicemanager)
+
+#### Project layout
+
+Path | Description
+-----|------------
+invoicemanager/ | Project root (created by django-admin startproject). Home to README.md and Django's manage.py script.
+invoicemanager/attachments/ | FS location for attachment storage (located **OUTSIDE** the application root)
+invoicemanager/db.sqlite3 | SQLite3 database file (located **OUTSIDE** the application root). Created when running 'python manage.py migrate'. Will not be present if you go straight to MySQL.
+invoicemanager/invoicemanager/ | Application root
+invoicemanager/invoicemanager/static/ | Static files (CSS, JS, etc)
+invoicemanager/invoicemanager/wsgi.py | Python WSGI script for Apache integration
+
+
 ### Requirements
-* pip (to install django)
+* pip (to install python packages)
 * django
 
 ### Basic Installation
@@ -63,8 +78,9 @@ Superuser created successfully.
 
 
 ### Using MySQL instead of SQLite3
-1. Install python MySQL driver
+1. Install MySQL client and Python MySQL driver
 ```bash
+$ sudo apt-get install mysql-client
 $ sudo -H pip install mysql-python
 ```
 
