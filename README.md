@@ -65,12 +65,12 @@ Superuser created successfully.
 ### Using MySQL instead of SQLite3
 1. Install python MySQL driver
 ```bash
-sudo -H pip install mysql-python
+$ sudo -H pip install mysql-python
 ```
 
 2. Create the MySQL database and user
 ```bash
-mysql -u root -p [-h servername]
+$ mysql -u root -p [-h servername]
 ```
 ```sql
 create database 'invoicemanager';
@@ -101,10 +101,10 @@ exit;
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbname',
-        'USER': 'dbuser',
-        'PASSWORD': 'dbpassword',
-        'HOST': 'localhost',
+        'NAME': 'invoicemanager',
+        'USER': 'invoicemanager',
+        'PASSWORD': 'mysecretpassword',
+        'HOST': 'servername',
         'PORT': '',
     }
 }
@@ -115,8 +115,8 @@ It is highly recommended to use a 'real' web server for running invoicemanager. 
 
 1. Install apache and wsgi module
 ```bash
-sudo apt-get install apache2 libapache2-mod-wsgi
-sudo a2enmod wsgi
+$ sudo apt-get install apache2 libapache2-mod-wsgi
+$ sudo a2enmod wsgi
 ```
 
 2. Edit apache config to use wsgi.py included with invoicemanager and include static and attachments directories
