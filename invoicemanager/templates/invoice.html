@@ -157,7 +157,7 @@
 			<tr>
 				<td><a href="{{ attachment.file.url }}">{{ attachment.displayname }}</a></td>
 				<td class="text-right">
-					<a href="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-xs btn-danger">Delete</a>
+					<input type="button" data-toggle="modal" data-target="#deleteattachment{{ attachment.id }}" class="btn btn-xs btn-danger" value="Delete">
 				</td>
 			</tr>
 			{% endfor %}
@@ -215,6 +215,25 @@
 <!-- END delete expense modals -->
 
 
+<!-- Delete attachment modals -->
+{% for attachment in invoice.invoiceattachment_set.all %}
+<div class="modal fade" id="deleteattachment{{ attachment.id }}" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header"><h3>Confirm</h3></div>
+			<div class="modal-body">
+				Are you sure you want to delete {{ attachment.displayname }}?
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default" data-dismiss="modal">No</a>
+				<a href="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-danger">Yes</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+<!-- END delete attachment modals -->
+
 
 {% if confirm_update %}
 <!-- Update success modal -->
@@ -227,19 +246,19 @@
 			<h3>Changes saved!</h3>
         </div>
         <div class="modal-footer">
-			<a href="#" id ="updateconfirmok" data-dismiss="modal" class="btn btn-primary">Ok</a>
+			<a href="#" data-dismiss="modal" class="btn btn-primary">Ok</a>
         </div>
       </div>
     </div>
 </div>
 
-<!-- Trigger modal display -->
+<!-- Trigger success confirmation modal -->
 <script>
 $(document).ready(function(){
 	$("#updateconfirm").modal();
 });
 </script>
-<!-- End update success modal -->
+<!-- End success confirmation modal -->
 {% endif %}
 
 <!-- End display invoice -->
