@@ -84,9 +84,9 @@
 				<td>{{ item.qty }}</td>
 				<td>${{ item.total }}</td>
 				<td class="text-right">
-					<a href="{% url 'invoicemanager:delete_item' invoice.id item.id %}" class="btn btn-xs btn-danger">Delete</a>
+					<input type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteitem{{ item.id }}" value="Delete">
 				</td>
-			</tr>
+			</tr>			
 			{% endfor %}
 			<tr>
 				<td><input type="text" name="name" class="form-control"></td>
@@ -124,7 +124,7 @@
 				<td>{{ expense.qty }}</td>
 				<td>${{ expense.total }}</td>
 				<td class="text-right">
-					<a href="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}" class="btn btn-xs btn-danger">Delete</a>
+					<input type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteexpense{{ expense.id }}" value="Delete">
 				</td>
 			</tr>
 			{% endfor %}
@@ -175,9 +175,49 @@
 
 <div class="well text-right">Invoice net total: ${{ invoice.total }}</div>
 
-{% if confirm_update %}
+<!-- Delete item modals -->
+{% for item in invoice.invoiceitem_set.all %}
+<div class="modal fade" id="deleteitem{{ item.id }}" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header"><h3>Confirm</h3></div>
+			<div class="modal-body">
+				Are you sure you want to delete {{ item.description }}?
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default" data-dismiss="modal">No</a>
+				<a href="{% url 'invoicemanager:delete_item' invoice.id item.id %}" class="btn btn-danger">Yes</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+<!-- END delete item modals -->
 
-<!-- Modal -->
+
+<!-- Delete expense modals -->
+{% for expense in invoice.expense_set.all %}
+<div class="modal fade" id="deleteexpense{{ expense.id }}" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header"><h3>Confirm</h3></div>
+			<div class="modal-body">
+				Are you sure you want to delete {{ expense.description }}?
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default" data-dismiss="modal">No</a>
+				<a href="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}" class="btn btn-danger">Yes</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+<!-- END delete expense modals -->
+
+
+
+{% if confirm_update %}
+<!-- Update success modal -->
 <div class="modal fade" id="updateconfirm" role="dialog">
     <div class="modal-dialog">
 
@@ -191,7 +231,7 @@
         </div>
       </div>
     </div>
-<div>
+</div>
 
 <!-- Trigger modal display -->
 <script>
@@ -199,11 +239,11 @@ $(document).ready(function(){
 	$("#updateconfirm").modal();
 });
 </script>
-
-<!-- End modal -->
+<!-- End update success modal -->
 {% endif %}
 
 <!-- End display invoice -->
+
 {% else %}
 <!-- Display invoice error -->
 
