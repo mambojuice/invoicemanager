@@ -9,6 +9,7 @@
 {% endif %}
 
 {% if invoice %}
+<!-- Display invoice -->
 
 <h2 class="text-center">Invoice {{ invoice.id }}</h2>
 
@@ -174,10 +175,41 @@
 
 <div class="well text-right">Invoice net total: ${{ invoice.total }}</div>
 
+{% if confirm_update %}
+
+<!-- Modal -->
+<div class="modal fade" id="updateconfirm" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+			<h3>Changes saved!</h3>
+        </div>
+        <div class="modal-footer">
+			<a href="#" id ="updateconfirmok" data-dismiss="modal" class="btn btn-primary">Ok</a>
+        </div>
+      </div>
+    </div>
+<div>
+
+<!-- Trigger modal display -->
+<script>
+$(document).ready(function(){
+	$("#updateconfirm").modal();
+});
+</script>
+
+<!-- End modal -->
+{% endif %}
+
+<!-- End display invoice -->
 {% else %}
+<!-- Display invoice error -->
 
 <div class="alert alert-warning">Invoice number not found!</div>
 
+<!-- End display invoice error -->
 {% endif %}
 
 {% endblock %}

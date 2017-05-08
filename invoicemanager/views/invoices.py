@@ -157,7 +157,12 @@ def update_invoice(request, invoice_id):
 			'error_message': 'Not able to update invoice!',
 		})
 	else:
-		return HttpResponseRedirect(reverse('invoicemanager:invoice', args=(invoice.id,)))
+		context = {
+			'confirm_update' : True,
+			'title' : 'Invoice ' + invoice_id,
+			'invoice' : invoice,
+			}
+		return render(request, 'invoice.html', context)
 
 
 
