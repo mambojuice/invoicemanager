@@ -4,37 +4,67 @@
 
 {% if invoice_list %}
 
-	<div class="panel panel-primary">
-		<div class="panel-heading">{% if title %}{{ title }}{% else %}Invoices{% endif %}</div>
-		<table class="table table-hover">
-			<tr>
-				<th>Invoice</th>
-				<th>Customer</th>
-				<th>Date</th>
-				<th>Status</th>
-				<th>Total</th>
-				<th class="text-right">Actions</th>
-			</tr>
-			
-			{% for invoice in invoice_list %}
-			<tr>
-				<td>{{ invoice.id }}</td>
-				<td>{{ invoice.customer }}</td>
-				<td>{{ invoice.date|date:"SHORT_DATE_FORMAT" }}</td>
-				<td>{{ invoice.status }}</td>
-				<td>${{ invoice.total_items }}</td>
-				<td class="text-right">
-					<a href="{% url 'invoicemanager:invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
-					<a href="{% url 'invoicemanager:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
-					<a href="{% url 'invoicemanager:delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</a>
-				</td>
-			</tr>
-			{% endfor %}
-		</table>
+<div class="panel panel-primary">
+	<div class="panel-heading">{% if title %}{{ title }}{% else %}Invoices{% endif %}</div>
+	<table class="table table-hover">
+		<tr>
+			<th>Invoice</th>
+			<th>Customer</th>
+			<th>Date</th>
+			<th>Status</th>
+			<th>Total</th>
+			<th class="text-right">Actions</th>
+		</tr>
+		
+		{% for invoice in invoice_list %}
+		<tr>
+			<td>{{ invoice.id }}</td>
+			<td>{{ invoice.customer }}</td>
+			<td>{{ invoice.date|date:"SHORT_DATE_FORMAT" }}</td>
+			<td>{{ invoice.status }}</td>
+			<td>${{ invoice.total_items }}</td>
+			<td class="text-right">
+				<a href="{% url 'invoicemanager:invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
+				<a href="{% url 'invoicemanager:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
+				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ invoice.id }}" data-delete-url="{% url 'invoicemanager:delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</button>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="confirmdelete" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Confirm</h4>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				<a href="#" class="btn btn-danger">Yes</a>
+			</div>
+		</div>
 	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('#confirmdelete').on('show.bs.modal', function(e) {
+			var name = $(e.relatedTarget).data('object-name');
+			var url = $(e.relatedTarget).data('delete-url');
+			$('#confirmdelete .modal-body').text("Are you sure you want to delete invoice " + name + "? This will delete all associated items, expenses, and attachments!");
+			$('#confirmdelete .modal-footer a').attr('href', url);
+		});
+	});
+</script>
+<!-- END delete confirmation modal -->
 	
 {% else %}
-	<div class="alert alert-warning">No invoices!</div>
+<div class="alert alert-warning">No invoices!</div>
 {% endif %}
 
 {% endblock %}
