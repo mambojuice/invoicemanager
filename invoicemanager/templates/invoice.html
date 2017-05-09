@@ -84,7 +84,7 @@
 				<td>{{ item.qty }}</td>
 				<td>${{ item.total }}</td>
 				<td class="text-right">
-					<input type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteitem{{ item.id }}" value="Delete">
+					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ item.description }}" data-delete-url="{% url 'invoicemanager:delete_item' invoice.id item.id %}">Delete</button>
 				</td>
 			</tr>			
 			{% endfor %}
@@ -124,7 +124,7 @@
 				<td>{{ expense.qty }}</td>
 				<td>${{ expense.total }}</td>
 				<td class="text-right">
-					<input type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteexpense{{ expense.id }}" value="Delete">
+					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ expense.description }}" data-delete-url="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}">Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
@@ -157,7 +157,7 @@
 			<tr>
 				<td><a href="{{ attachment.file.url }}">{{ attachment.displayname }}</a></td>
 				<td class="text-right">
-					<input type="button" data-toggle="modal" data-target="#deleteattachment{{ attachment.id }}" class="btn btn-xs btn-danger" value="Delete">
+					<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ attachment.displayname }}" data-delete-url="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-xs btn-danger">Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
@@ -175,64 +175,37 @@
 
 <div class="well text-right">Invoice net total: ${{ invoice.total }}</div>
 
-<!-- Delete item modals -->
-{% for item in invoice.invoiceitem_set.all %}
-<div class="modal fade" id="deleteitem{{ item.id }}" role="dialog">
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="confirmdelete" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header"><h3>Confirm</h3></div>
+			<div class="modal-header">
+				<h4 class="modal-title">Confirm</h4>
+			</div>
 			<div class="modal-body">
-				Are you sure you want to delete {{ item.description }}?
+				
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn btn-default" data-dismiss="modal">No</a>
-				<a href="{% url 'invoicemanager:delete_item' invoice.id item.id %}" class="btn btn-danger">Yes</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				<a href="#" class="btn btn-danger">Yes</a>
 			</div>
 		</div>
 	</div>
 </div>
-{% endfor %}
-<!-- END delete item modals -->
 
+<script>
+	$(document).ready(function() {
+		$('#confirmdelete').on('show.bs.modal', function(e) {
+			var name = $(e.relatedTarget).data('object-name');
+			var url = $(e.relatedTarget).data('delete-url');
+			$('#confirmdelete .modal-body').text("Are you sure you want to delete " + name + "?");
+			$('#confirmdelete .modal-footer a').attr('href', url);
+		});
+	});
+</script>
+<!-- END delete confirmation modal -->
 
-<!-- Delete expense modals -->
-{% for expense in invoice.expense_set.all %}
-<div class="modal fade" id="deleteexpense{{ expense.id }}" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header"><h3>Confirm</h3></div>
-			<div class="modal-body">
-				Are you sure you want to delete {{ expense.description }}?
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn btn-default" data-dismiss="modal">No</a>
-				<a href="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}" class="btn btn-danger">Yes</a>
-			</div>
-		</div>
-	</div>
-</div>
-{% endfor %}
-<!-- END delete expense modals -->
-
-
-<!-- Delete attachment modals -->
-{% for attachment in invoice.invoiceattachment_set.all %}
-<div class="modal fade" id="deleteattachment{{ attachment.id }}" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header"><h3>Confirm</h3></div>
-			<div class="modal-body">
-				Are you sure you want to delete {{ attachment.displayname }}?
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn btn-default" data-dismiss="modal">No</a>
-				<a href="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-danger">Yes</a>
-			</div>
-		</div>
-	</div>
-</div>
-{% endfor %}
-<!-- END delete attachment modals -->
 
 
 {% if confirm_update %}
