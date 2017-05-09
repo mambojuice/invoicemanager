@@ -56,7 +56,7 @@
 		$('#confirmdelete').on('show.bs.modal', function(e) {
 			var name = $(e.relatedTarget).data('object-name');
 			var url = $(e.relatedTarget).data('delete-url');
-			$('#confirmdelete .modal-body').text("Are you sure you want to delete invoice " + name + "? This will delete all associated items, expenses, and attachments!");
+			$('#confirmdelete .modal-body').html("Are you sure you want to delete invoice " + name + "?<br><i>This will delete all associated items, expenses, and attachments!</i>");
 			$('#confirmdelete .modal-footer a').attr('href', url);
 		});
 	});
