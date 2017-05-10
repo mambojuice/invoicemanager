@@ -9,6 +9,7 @@
 {% endif %}
 
 {% if invoice %}
+<!-- Display invoice -->
 
 <h2 class="text-center">Invoice {{ invoice.id }}</h2>
 
@@ -83,9 +84,9 @@
 				<td>{{ item.qty }}</td>
 				<td>${{ item.total }}</td>
 				<td class="text-right">
-					<a href="{% url 'invoicemanager:delete_item' invoice.id item.id %}" class="btn btn-xs btn-danger">Delete</a>
+					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ item.description }}" data-delete-url="{% url 'invoicemanager:delete_item' invoice.id item.id %}">Delete</button>
 				</td>
-			</tr>
+			</tr>			
 			{% endfor %}
 			<tr>
 				<td><input type="text" name="name" class="form-control"></td>
@@ -123,7 +124,7 @@
 				<td>{{ expense.qty }}</td>
 				<td>${{ expense.total }}</td>
 				<td class="text-right">
-					<a href="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}" class="btn btn-xs btn-danger">Delete</a>
+					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ expense.description }}" data-delete-url="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}">Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
@@ -156,7 +157,7 @@
 			<tr>
 				<td><a href="{{ attachment.file.url }}">{{ attachment.displayname }}</a></td>
 				<td class="text-right">
-					<a href="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-xs btn-danger">Delete</a>
+					<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ attachment.displayname }}" data-delete-url="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-xs btn-danger">Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
@@ -174,10 +175,73 @@
 
 <div class="well text-right">Invoice net total: ${{ invoice.total }}</div>
 
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="confirmdelete" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Confirm</h4>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				<a href="#" class="btn btn-danger">Yes</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('#confirmdelete').on('show.bs.modal', function(e) {
+			var name = $(e.relatedTarget).data('object-name');
+			var url = $(e.relatedTarget).data('delete-url');
+			$('#confirmdelete .modal-body').text("Are you sure you want to delete " + name + "?");
+			$('#confirmdelete .modal-footer a').attr('href', url);
+		});
+	});
+</script>
+<!-- END delete confirmation modal -->
+
+
+
+{% if confirm_update %}
+<!-- Update success modal -->
+<div class="modal fade" id="updateconfirm" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+			<h4>Changes saved!</h4>
+        </div>
+        <div class="modal-footer">
+			<a href="#" data-dismiss="modal" class="btn btn-primary">Ok</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Trigger success confirmation modal -->
+<script>
+$(document).ready(function(){
+	$("#updateconfirm").modal();
+});
+</script>
+<!-- End success confirmation modal -->
+{% endif %}
+
+<!-- End display invoice -->
+
 {% else %}
+<!-- Display invoice error -->
 
 <div class="alert alert-warning">Invoice number not found!</div>
 
+<!-- End display invoice error -->
 {% endif %}
 
 {% endblock %}

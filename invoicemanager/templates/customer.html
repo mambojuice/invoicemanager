@@ -91,12 +91,42 @@
 			<td>{{ invoice.total_items }}</td>
 			<td class="text-right">
 				<a href="{% url 'invoicemanager:invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
-				<a href="{% url 'invoicemanager:delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</a>
+				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ invoice.id }}" data-delete-url="{% url 'invoicemanager:delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</button>
 			</td>
 		</tr>
 	{% endfor %}
 	</table>
 </div>
+
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="confirmdelete" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Confirm</h4>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				<a href="#" class="btn btn-danger">Yes</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('#confirmdelete').on('show.bs.modal', function(e) {
+			var name = $(e.relatedTarget).data('object-name');
+			var url = $(e.relatedTarget).data('delete-url');
+			$('#confirmdelete .modal-body').html("Are you sure you want to delete invoice " + name + "?<br><i>This will delete all associated items, expenses, and attachments!</i>");
+			$('#confirmdelete .modal-footer a').attr('href', url);
+		});
+	});
+</script>
+<!-- END delete confirmation modal -->
 
 {% endif %}
 

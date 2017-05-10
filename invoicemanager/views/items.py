@@ -27,6 +27,7 @@ def add_item(request, invoice_id):
 # Delete invoiceitem from invoice
 @login_required(login_url='login/')
 def delete_item(request, invoiceitem_id, invoice_id):
+	
 	item = get_object_or_404(InvoiceItem, pk=invoiceitem_id)
 	invoice = get_object_or_404(Invoice, pk=invoice_id)
 	try:
