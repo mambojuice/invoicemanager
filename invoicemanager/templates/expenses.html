@@ -22,6 +22,7 @@
 		</tr>
 		{% for expense in expenses %}
 		<tr>
+			<!-- ID: {{ expense.id }} -->
 			<td>{{ expense.description }}</td>
 			<td>{{ expense.date|date:"SHORT_DATE_FORMAT" }}</td>
 			<td>${{ expense.cost }}</td>
