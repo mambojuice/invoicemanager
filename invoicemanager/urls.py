@@ -49,7 +49,7 @@ patterns = [
 
     url(r'^invoice/(?P<invoice_id>[0-9]+)/attachments/add/$', views.invoices.upload_invoice_attachment, name='upload_invoice_attachment'),
     url(r'^invoice/(?P<invoice_id>[0-9]+)/attachments/(?P<invoiceattachment_id>[0-9]+)/delete/$', views.invoices.delete_invoice_attachment, name='delete_invoice_attachment'),
-    url(r'^invoice/(?P<invoice_id>[0-9]+)/attachments/add/$', views.expenses.upload_business_expense_attachment, name='upload_business_expense_attachment'),
+    url(r'^expenses/(?P<expense_id>[0-9]+)/attachments/add/$', views.expenses.upload_business_expense_attachment, name='upload_business_expense_attachment'),
 
     # # # CUSTOMERS
 
