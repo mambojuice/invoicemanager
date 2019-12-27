@@ -27,7 +27,7 @@ invoicemanager/invoicemanager/wsgi.py | Python WSGI script for Apache integratio
 
 1. Install pip
 ```bash
-$ sudo apt-get install python-pip
+$ sudo apt-get install python3 python3-pip
 ```
 
 2. Update pip to latest version (using sudo with pip requires the -H flag)
