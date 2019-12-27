@@ -58,12 +58,12 @@ TIME_ZONE = 'UTC'
 
 6. Create the application database
 ```bash
-/opt/invoicemanager$ sudo python manage.py migrate
+/opt/invoicemanager$ sudo python3 manage.py migrate
 ```
 
 7. Create an admin user
 ```bash
-/opt/invoicemanager$ sudo python manage.py create superuser
+/opt/invoicemanager$ sudo python3 manage.py create superuser
 Username (leave blank to use 'root'): admin
 Email address: admin@home.local
 Password:
@@ -73,7 +73,7 @@ Superuser created successfully.
 
 8. At this point, you should have enough configured to run the app using Python's development server. Run the following command and browse to http://localhost:8000
 ```bash
-/opt/invoicemanager$ sudo python manage.py runserver 0.0.0.0:8000
+/opt/invoicemanager$ sudo python3 manage.py runserver 0.0.0.0:8000
 ```
 
 
