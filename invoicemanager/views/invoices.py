@@ -127,7 +127,7 @@ def new_invoice(request):
 def print_invoice(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
     context = {
-		'title' : "Invoice " + invoice_id,
+		'title' : "Invoice " + str(invoice_id),
 	    'invoice' : invoice,
 	}
     return render(request, 'print_invoice.html', context)
@@ -159,7 +159,7 @@ def update_invoice(request, invoice_id):
 	else:
 		context = {
 			'confirm_update' : True,
-			'title' : 'Invoice ' + invoice_id,
+			'title' : 'Invoice ' + str(invoice_id),
 			'invoice' : invoice,
 			}
 		return render(request, 'invoice.html', context)
