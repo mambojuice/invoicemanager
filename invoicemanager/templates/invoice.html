@@ -15,7 +15,7 @@
 
 <!-- Customer information -->
 
-<form method="POST" action="{% url 'invoicemanager:update_invoice' invoice.id %}" name="customer" class="form-horizontal">
+<form method="POST" action="{% url 'update_invoice' invoice.id %}" name="customer" class="form-horizontal">
 	{% csrf_token %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">Customer</div>
@@ -23,7 +23,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Customer:</label>
 				<div class="col-sm-6">
-					<p class="form-control-static"><a href="{% url 'invoicemanager:customer' invoice.customer.id %}">{{ invoice.customer }}</a></p>
+					<p class="form-control-static"><a href="{% url 'customer' invoice.customer.id %}">{{ invoice.customer }}</a></p>
 				</div>
 			</div>
 			<div class="form-group">
@@ -54,7 +54,7 @@
 		</div>
 		<div class="panel-footer">
 			<input type="submit" value="Save" class="btn btn-primary">
-			<a href="{% url 'invoicemanager:print_invoice' invoice.id %}" target="_new" class="btn btn-default">Printable Invoice</a>
+			<a href="{% url 'print_invoice' invoice.id %}" target="_new" class="btn btn-default">Printable Invoice</a>
 		</div>
 	</div>
 </form>
@@ -63,7 +63,7 @@
 
 <!-- Invoice items -->
 
-<form action="{% url 'invoicemanager:add_item' invoice.id %}" method="post" class="form-inline">
+<form action="{% url 'add_item' invoice.id %}" method="post" class="form-inline">
 	{% csrf_token %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">Invoice items</div>
@@ -84,9 +84,9 @@
 				<td>{{ item.qty }}</td>
 				<td>${{ item.total }}</td>
 				<td class="text-right">
-					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ item.description }}" data-delete-url="{% url 'invoicemanager:delete_item' invoice.id item.id %}">Delete</button>
+					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ item.description }}" data-delete-url="{% url 'delete_item' invoice.id item.id %}">Delete</button>
 				</td>
-			</tr>			
+			</tr>
 			{% endfor %}
 			<tr>
 				<td><input type="text" name="name" class="form-control"></td>
@@ -105,7 +105,7 @@
 	</div>
 </form>
 
-<form action="{% url 'invoicemanager:add_invoice_expense' invoice.id %}" method="post" class="form-inline">
+<form action="{% url 'add_invoice_expense' invoice.id %}" method="post" class="form-inline">
 	{% csrf_token %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">Invoice expenses</div>
@@ -124,7 +124,7 @@
 				<td>{{ expense.qty }}</td>
 				<td>${{ expense.total }}</td>
 				<td class="text-right">
-					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ expense.description }}" data-delete-url="{% url 'invoicemanager:delete_invoice_expense' invoice.id expense.id %}">Delete</button>
+					<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ expense.description }}" data-delete-url="{% url 'delete_invoice_expense' invoice.id expense.id %}">Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
@@ -144,7 +144,7 @@
 	</div>
 </form>
 
-<form action="{% url 'invoicemanager:upload_invoice_attachment' invoice.id %}" method="POST" enctype="multipart/form-data" class="form-inline">
+<form action="{% url 'upload_invoice_attachment' invoice.id %}" method="POST" enctype="multipart/form-data" class="form-inline">
 	{% csrf_token %}
 	<div class="panel panel-primary">
 		<div class="panel-heading" >Attachments</div>
@@ -157,7 +157,7 @@
 			<tr>
 				<td><a href="{{ attachment.file.url }}">{{ attachment.displayname }}</a></td>
 				<td class="text-right">
-					<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ attachment.displayname }}" data-delete-url="{% url 'invoicemanager:delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-xs btn-danger">Delete</button>
+					<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ attachment.displayname }}" data-delete-url="{% url 'delete_invoice_attachment' invoice.id attachment.id %}" class="btn btn-xs btn-danger">Delete</button>
 				</td>
 			</tr>
 			{% endfor %}
@@ -184,7 +184,7 @@
 				<h4 class="modal-title">Confirm</h4>
 			</div>
 			<div class="modal-body">
-				
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>

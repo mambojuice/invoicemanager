@@ -20,14 +20,14 @@ def add_item(request, invoice_id):
 			'error_message': 'Not all fields were completed.',
 		})
 	else:
-		return HttpResponseRedirect(reverse('invoicemanager:invoice', args=(invoice.id,)))
+		return HttpResponseRedirect(reverse('invoice', args=(invoice.id,)))
 
 
 
 # Delete invoiceitem from invoice
 @login_required(login_url='login/')
 def delete_item(request, invoiceitem_id, invoice_id):
-	
+
 	item = get_object_or_404(InvoiceItem, pk=invoiceitem_id)
 	invoice = get_object_or_404(Invoice, pk=invoice_id)
 	try:
@@ -38,4 +38,4 @@ def delete_item(request, invoiceitem_id, invoice_id):
 			'error_message': 'Item does not exist.',
 		})
 	else:
-		return HttpResponseRedirect(reverse('invoicemanager:invoice', args=(invoice.id,)))
+		return HttpResponseRedirect(reverse('invoice', args=(invoice.id,)))

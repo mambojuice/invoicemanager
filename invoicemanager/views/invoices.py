@@ -19,9 +19,9 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-	
-	
-	
+
+
+
 # Show big list of all invoices
 @login_required(login_url='login/')
 def all_invoices(request):
@@ -31,9 +31,9 @@ def all_invoices(request):
         'invoice_list' : invoices,
     }
     return render(request, 'index.html', context)
-	
-	
-	
+
+
+
 # Show draft invoices
 @login_required(login_url='login/')
 def draft_invoices(request):
@@ -44,8 +44,8 @@ def draft_invoices(request):
     }
     return render(request, 'index.html', context)
 
-	
-	
+
+
 # Show paid invoices
 @login_required(login_url='login/')
 def paid_invoices(request):
@@ -56,8 +56,8 @@ def paid_invoices(request):
     }
     return render(request, 'index.html', context)
 
-	
-	
+
+
 # Show unpaid invoices
 @login_required(login_url='login/')
 def unpaid_invoices(request):
@@ -68,8 +68,8 @@ def unpaid_invoices(request):
     }
     return render(request, 'index.html', context)
 
-	
-	
+
+
 # Display a specific invoice
 @login_required(login_url='login/')
 def invoice(request, invoice_id):
@@ -79,14 +79,14 @@ def invoice(request, invoice_id):
 	    'invoice' : invoice,
 	}
     return render(request, 'invoice.html', context)
-	
-	
-	
+
+
+
 # Search for invoice
 @login_required(login_url='login/')
 def search_invoice(request):
     id = request.POST['id']
-    return HttpResponseRedirect(reverse('invoicemanager:invoice', args=(id,)))
+    return HttpResponseRedirect(reverse('invoice', args=(id,)))
 
 
 
@@ -96,7 +96,7 @@ def new_invoice(request):
 	# If no customer_id is defined, create a new invoice
 	if request.method=='POST':
 		customer_id = request.POST['customer_id']
-		
+
 		if customer_id=='None':
 			customers = Customer.objects.order_by('name')
 			context = {
@@ -109,8 +109,8 @@ def new_invoice(request):
 			customer = get_object_or_404(Customer, pk=customer_id)
 			i = Invoice(customer=customer, date=datetime.date.today(), status='Unpaid')
 			i.save()
-			return HttpResponseRedirect(reverse('invoicemanager:invoice', args=(i.id,)))
-			
+			return HttpResponseRedirect(reverse('invoice', args=(i.id,)))
+
 	else:
 		# Customer list needed to populate select field
 		customers = Customer.objects.order_by('name')
@@ -139,10 +139,10 @@ def print_invoice(request, invoice_id):
 def delete_invoice(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
     invoice.delete()
-    return HttpResponseRedirect(reverse('invoicemanager:index'))
-	
-	
-	
+    return HttpResponseRedirect(reverse('index'))
+
+
+
 # Update invoice
 @login_required(login_url='login/')
 def update_invoice(request, invoice_id):
@@ -178,10 +178,10 @@ def upload_invoice_attachment(request, invoice_id):
     e = invoice.invoiceattachment_set.create(file=myfile, displayname=myfile.name)
     e.save()
 
-    return HttpResponseRedirect(reverse('invoicemanager:invoice', args=(invoice.id,)))
+    return HttpResponseRedirect(reverse('invoice', args=(invoice.id,)))
 
-	
-	
+
+
 # Delete attachment from invoice
 @login_required(login_url='login/')
 def delete_invoice_attachment(request, invoice_id, invoiceattachment_id):
@@ -198,4 +198,4 @@ def delete_invoice_attachment(request, invoice_id, invoiceattachment_id):
 		}
 		return render(request, 'view_invoice.html', context)
 	else:
-		return HttpResponseRedirect(reverse('invoicemanager:invoice', args=(invoice.id,)))
+		return HttpResponseRedirect(reverse('invoice', args=(invoice.id,)))

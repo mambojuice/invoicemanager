@@ -15,7 +15,7 @@
 			<th>Total</th>
 			<th class="text-right">Actions</th>
 		</tr>
-		
+
 		{% for invoice in invoice_list %}
 		<tr>
 			<td>{{ invoice.id }}</td>
@@ -24,9 +24,9 @@
 			<td>{{ invoice.status }}</td>
 			<td>${{ invoice.total_items }}</td>
 			<td class="text-right">
-				<a href="{% url 'invoicemanager:invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
-				<a href="{% url 'invoicemanager:customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
-				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ invoice.id }}" data-delete-url="{% url 'invoicemanager:delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</button>
+				<a href="{% url 'invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
+				<a href="{% url 'customer' invoice.customer.id %}" class="btn btn-xs btn-default">Customer</a>
+				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ invoice.id }}" data-delete-url="{% url 'delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</button>
 			</td>
 		</tr>
 		{% endfor %}
@@ -41,7 +41,7 @@
 				<h4 class="modal-title">Confirm</h4>
 			</div>
 			<div class="modal-body">
-				
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
@@ -62,7 +62,7 @@
 	});
 </script>
 <!-- END delete confirmation modal -->
-	
+
 {% else %}
 <div class="alert alert-warning">No invoices!</div>
 {% endif %}

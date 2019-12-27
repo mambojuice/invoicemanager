@@ -13,7 +13,7 @@ def login_view(request):
 		user = authenticate(username=username, password=password)
 		if (user is not None):
 			login(request, user)
-			return HttpResponseRedirect(reverse('invoicemanager:index'))
+			return HttpResponseRedirect(reverse('index'))
 		else:
 			context = {
 				'error_message' : 'Unable to login! Please check username and password then try again.',

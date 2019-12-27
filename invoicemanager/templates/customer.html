@@ -12,7 +12,7 @@
 
 <!-- Customer information -->
 
-<form method="POST" action="{% url 'invoicemanager:update_customer' customer.id %}" name="customer" class="form-horizontal">
+<form method="POST" action="{% url 'update_customer' customer.id %}" name="customer" class="form-horizontal">
 	{% csrf_token %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">Customer Info</div>
@@ -90,8 +90,8 @@
 			<td>{{ invoice.status }}</td>
 			<td>{{ invoice.total_items }}</td>
 			<td class="text-right">
-				<a href="{% url 'invoicemanager:invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
-				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ invoice.id }}" data-delete-url="{% url 'invoicemanager:delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</button>
+				<a href="{% url 'invoice' invoice.id %}" class="btn btn-xs btn-primary">View</a>
+				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ invoice.id }}" data-delete-url="{% url 'delete_invoice' invoice.id %}" class="btn btn-xs btn-danger">Delete</button>
 			</td>
 		</tr>
 	{% endfor %}
@@ -106,7 +106,7 @@
 				<h4 class="modal-title">Confirm</h4>
 			</div>
 			<div class="modal-body">
-				
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
