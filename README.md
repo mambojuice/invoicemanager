@@ -131,7 +131,7 @@ It is highly recommended to use a 'real' web server for running invoicemanager. 
 
 1. Install apache and wsgi module
 ```bash
-$ sudo apt-get install apache2 libapache2-mod-wsgi
+$ sudo apt-get install apache2 libapache2-mod-wsgi-py3
 $ sudo a2enmod wsgi
 ```
 
