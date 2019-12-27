@@ -80,8 +80,8 @@ Superuser created successfully.
 ### Using MySQL instead of SQLite3
 1. Install MySQL client and Python MySQL driver
 ```bash
-$ sudo apt-get install mysql-client
-$ sudo -H pip install mysql-python
+$ sudo apt-get install mariadb-client
+$ sudo -H pip install mysqlclient
 ```
 
 2. Create the MySQL database and user
