@@ -34,8 +34,8 @@
 				{% endfor %}
 			</td>
 			<td class="text-right">
-				<a href="{% url 'invoicemanager:upload_business_expense_attachment' expense.id %}" class="btn btn-xs btn-default">Add Attachment</a>
-				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ expense.description }}" data-delete-url="{% url 'invoicemanager:delete_business_expense' expense.id %}" class="btn btn-xs btn-danger">Delete</button>
+				<a href="{% url 'upload_business_expense_attachment' expense.id %}" class="btn btn-xs btn-default">Add Attachment</a>
+				<button type="button" data-toggle="modal" data-target="#confirmdelete" data-object-name="{{ expense.description }}" data-delete-url="{% url 'delete_business_expense' expense.id %}" class="btn btn-xs btn-danger">Delete</button>
 			</td>
 		</tr>
 		{% endfor %}
@@ -50,7 +50,7 @@
 				<h4 class="modal-title">Confirm</h4>
 			</div>
 			<div class="modal-body">
-				
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>

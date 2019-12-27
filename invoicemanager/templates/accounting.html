@@ -26,7 +26,7 @@
 			<td>{{ invoice.customer }}</td>
 			<td>{{ invoice.date|date:"SHORT_DATE_FORMAT" }}</td>
 			<td>${{ invoice.total_items }}</td>
-			<td class="text-right"><a href="{% url 'invoicemanager:invoice' invoice.id %}" class="btn btn-xs btn-primary">View Invoice</a></td>
+			<td class="text-right"><a href="{% url 'invoice' invoice.id %}" class="btn btn-xs btn-primary">View Invoice</a></td>
 		</tr>
 		{% endfor %}
 	</table>
@@ -55,7 +55,7 @@
 			<td>${{ expense.cost }}</td>
 			<td>{{ expense.qty }}</td>
 			<td>${{ expense.total }}</td>
-			<td class="text-right">{% if expense.invoice_id %}<a href="{% url 'invoicemanager:invoice' expense.invoice_id %}" class="btn btn-xs btn-primary">View Invoice</a>{% endif %}</td>
+			<td class="text-right">{% if expense.invoice_id %}<a href="{% url 'invoice' expense.invoice_id %}" class="btn btn-xs btn-primary">View Invoice</a>{% endif %}</td>
 		</tr>
 		{% endfor %}
 	</table>
@@ -66,7 +66,7 @@
 
 {% else %}
 
-<form action="{% url 'invoicemanager:accounting' %}" method="POST" class="form-horizontal">
+<form action="{% url 'accounting' %}" method="POST" class="form-horizontal">
 {% csrf_token %}
 	<div class="panel panel-primary">
 		<div class="panel-heading">Choose a date range</div>

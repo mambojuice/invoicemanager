@@ -10,7 +10,7 @@
 
 {% if expense %}
 
-<form action="{% url 'invoicemanager:upload_business_expense_attachment' expense.id %}" method="POST" enctype="multipart/form-data" class="form-inline">
+<form action="{% url 'upload_business_expense_attachment' expense.id %}" method="POST" enctype="multipart/form-data" class="form-inline">
 	{% csrf_token %}
 	<div class="panel panel-primary">
 		<div class="panel-heading" >Attachments</div>
