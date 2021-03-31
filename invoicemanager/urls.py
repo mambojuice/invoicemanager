@@ -46,7 +46,7 @@ urlpatterns = [
 
     path('invoice/<int:invoice_id>/attachments/add/', views.invoices.upload_invoice_attachment, name='upload_invoice_attachment'),
     path('invoice/<int:invoice_id>/attachments/<int:invoiceattachment_id>/delete/', views.invoices.delete_invoice_attachment, name='delete_invoice_attachment'),
-    path('expenses/<int:invoice_id>/attachments/add/', views.expenses.upload_business_expense_attachment, name='upload_business_expense_attachment'),
+    path('expenses/<int:expense_id>/attachments/add/', views.expenses.upload_business_expense_attachment, name='upload_business_expense_attachment'),
 
     # # # CUSTOMERS
 
