@@ -63,7 +63,7 @@ TIME_ZONE = 'UTC'
 
 7. Create an admin user
 ```bash
-/opt/invoicemanager$ sudo python3 manage.py create superuser
+/opt/invoicemanager$ sudo python3 manage.py createsuperuser
 Username (leave blank to use 'root'): admin
 Email address: admin@home.local
 Password:
